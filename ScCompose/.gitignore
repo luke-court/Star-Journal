@@ -17,3 +17,4 @@ android/app/release/
 *.keystore
 # Local gradle credentials
 android/gradle.properties
+/app/release/
