@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.lukecourt.scjournal"
+    namespace = "com.lukecourt.starjournal"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.lukecourt.scjournal"
+        applicationId = "com.lukecourt.starjournal"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
