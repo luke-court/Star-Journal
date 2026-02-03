@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+android/app/release/
+*.keystore
+# Local gradle credentials
+android/gradle.properties
