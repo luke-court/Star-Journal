@@ -21,8 +21,7 @@ fun CargoItemDisplay(cargoItem: CargoItem) {
     Card (
         modifier = Modifier
             .padding(16.dp)
-            .fillMaxWidth()
-            .fillMaxHeight(),
+            .fillMaxWidth(),
 
     ) {
         Row (
@@ -35,7 +34,13 @@ fun CargoItemDisplay(cargoItem: CargoItem) {
                 Text(cargoItem.type)
             }
             Column {
-                Text("Quantity: " + cargoItem.quantity.toString() + " SCU")
+                if (cargoItem.quantity == 0) {
+                    Text("Quantity Not Specified")
+                } else {
+                    Text("Quantity: " + cargoItem.quantity.toString() + " SCU")
+                }
+
+
             }
 
         }

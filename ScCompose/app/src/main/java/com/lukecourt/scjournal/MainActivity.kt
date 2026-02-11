@@ -34,7 +34,6 @@ import com.lukecourt.scjournal.viewModels.MissionsViewModel
 
 class MainActivity : ComponentActivity() {
 
-
     val dataViewModel = DataViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,32 +138,32 @@ private fun BottomNavBar(modifier: Modifier = Modifier,
                     }
                 }
             )
-//            NavigationBarItem(
-//                icon = {
-//                    Icon(
-//                        imageVector = Icons.Default.Settings,
-//                        contentDescription = null
-//                    )
-//                },
-//                label = {
-//                    Text(
-//                        text = "Settings"
-//                    )
-//                },
-//                selected = currentDestination?.route == Settings.route,
-//                onClick = {
-//                    navController.navigate(Settings.route) {
-//                        popUpTo(navController.graph.findStartDestination().id) {
-//                            saveState = true
-//                        }
-//                        // Avoid multiple copies of the same destination when
-//                        // reselecting the same item
-//                        launchSingleTop = true
-//                        // Restore state when reselecting a previously selected item
-//                        restoreState = true
-//                    }
-//                }
-//            )
+            NavigationBarItem(
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = null
+                    )
+                },
+                label = {
+                    Text(
+                        text = "Settings"
+                    )
+                },
+                selected = currentDestination?.route == Settings.route,
+                onClick = {
+                    navController.navigate(Settings.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
+                        launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
+                        restoreState = true
+                    }
+                }
+            )
         }
     }
 

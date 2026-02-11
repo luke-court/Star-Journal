@@ -281,7 +281,8 @@ fun CargoMissionDetails(cargoItemsList: MutableState<List<CargoItem>> ){
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Column (
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
                         .padding(16.dp)
                         .align(Alignment.CenterHorizontally),
                     verticalArrangement = Arrangement.Center,
@@ -330,7 +331,7 @@ fun CargoMissionDetails(cargoItemsList: MutableState<List<CargoItem>> ){
                     Box (modifier = Modifier.padding(0.dp, 16.dp, 32.dp, 0.dp)) {
                         OutlinedTextField(
                             value = cargoAmount,
-                            onValueChange = { if (verifyInt(it)) cargoAmount = it },
+                            onValueChange = { if (verifyInt(it)) cargoAmount = it else cargoAmount = 0.toString() },
                             label = { Text("Cargo Quantity (SCU)") },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         )
@@ -429,7 +430,13 @@ fun CargoMissionDetails(cargoItemsList: MutableState<List<CargoItem>> ){
                                     CargoItem(
                                         id = cargoItemsList.value.size + 1,
                                         type = selectedCargoType,
-                                        quantity = cargoAmount.toInt(),
+                                        quantity = if (cargoAmount == "") {
+                                            0
+                                        } else if (verifyInt(cargoAmount)) {
+                                            cargoAmount.toInt()
+                                        } else {
+                                            0
+                                        },
                                         origin = cargoOrigin,
                                         destination = cargoDestination
                                     )
