@@ -1,10 +1,7 @@
-package com.lukecourt.scjournal.data
+package com.lukecourt.starjournal.data
 
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.Serializable
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 // Define an enum for MissionStatus for better type safety

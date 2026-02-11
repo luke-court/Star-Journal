@@ -1,4 +1,4 @@
-package com.lukecourt.scjournal
+package com.lukecourt.starjournal
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

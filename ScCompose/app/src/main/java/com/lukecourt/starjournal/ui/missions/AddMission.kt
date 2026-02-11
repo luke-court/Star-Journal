@@ -1,4 +1,4 @@
-package com.lukecourt.scjournal.ui.missions
+package com.lukecourt.starjournal.ui.missions
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,9 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -52,26 +48,23 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.lukecourt.scjournal.Missions
-import com.lukecourt.scjournal.data.CargoItem
-import com.lukecourt.scjournal.data.CargoMission
-import com.lukecourt.scjournal.data.Mission
-import com.lukecourt.scjournal.data.MissionStatus
-import com.lukecourt.scjournal.data.MissionType
-import com.lukecourt.scjournal.data.toValue
-import com.lukecourt.scjournal.verifyInt
-import com.lukecourt.scjournal.ui.theme.SCJournalComposeTheme
-import com.lukecourt.scjournal.viewModels.DataViewModel
-import com.lukecourt.scjournal.viewModels.MissionsViewModel
-import com.lukecourt.scjournal.ui.CargoItemDisplay
-import kotlinx.coroutines.flow.MutableStateFlow
-import org.intellij.lang.annotations.JdkConstants
+import com.lukecourt.starjournal.Missions
+import com.lukecourt.starjournal.data.CargoItem
+import com.lukecourt.starjournal.data.CargoMission
+import com.lukecourt.starjournal.data.Mission
+import com.lukecourt.starjournal.data.MissionStatus
+import com.lukecourt.starjournal.data.MissionType
+import com.lukecourt.starjournal.data.toValue
+import com.lukecourt.starjournal.verifyInt
+import com.lukecourt.starjournal.ui.theme.SCJournalComposeTheme
+import com.lukecourt.starjournal.viewModels.DataViewModel
+import com.lukecourt.starjournal.viewModels.MissionsViewModel
+import com.lukecourt.starjournal.ui.CargoItemDisplay
 
 
 @OptIn(ExperimentalMaterial3Api::class)

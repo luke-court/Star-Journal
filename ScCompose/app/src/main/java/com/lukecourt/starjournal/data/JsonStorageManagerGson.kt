@@ -1,7 +1,6 @@
-package com.lukecourt.scjournal.data
+package com.lukecourt.starjournal.data
 
 import android.content.Context
-import androidx.compose.ui.input.key.type
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken // For loading lists
 import java.io.File

@@ -1,6 +1,5 @@
-package com.lukecourt.scjournal
+package com.lukecourt.starjournal
 
-import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,13 +23,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.lukecourt.scjournal.ui.theme.SCJournalComposeTheme
+import com.lukecourt.starjournal.ui.theme.SCJournalComposeTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import com.lukecourt.scjournal.viewModels.DataViewModel
-import com.lukecourt.scjournal.viewModels.MissionsViewModel
+import com.lukecourt.starjournal.viewModels.DataViewModel
 
 class MainActivity : ComponentActivity() {
 

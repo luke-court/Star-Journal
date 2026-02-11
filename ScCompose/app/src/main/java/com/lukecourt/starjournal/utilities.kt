@@ -1,4 +1,4 @@
-package com.lukecourt.scjournal
+package com.lukecourt.starjournal
 
 import androidx.core.text.isDigitsOnly
 

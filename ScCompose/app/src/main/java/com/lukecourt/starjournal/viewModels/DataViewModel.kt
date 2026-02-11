@@ -1,8 +1,8 @@
-package com.lukecourt.scjournal.viewModels
+package com.lukecourt.starjournal.viewModels
 
 import androidx.lifecycle.ViewModel
-import com.lukecourt.scjournal.data.CargoData
-import com.lukecourt.scjournal.data.GetDataJSON
+import com.lukecourt.starjournal.data.CargoData
+import com.lukecourt.starjournal.data.GetDataJSON
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,6 +1,5 @@
-package com.lukecourt.scjournal
+package com.lukecourt.starjournal
 
-import android.app.Application
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -8,12 +7,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.lukecourt.scjournal.ui.home.HomeScreen
-import com.lukecourt.scjournal.ui.missions.AddMissionScreen
-import com.lukecourt.scjournal.ui.missions.MissionsScreen
-import com.lukecourt.scjournal.ui.settings.SettingsScreen
-import com.lukecourt.scjournal.ui.missions.MissionDetailsScreen
-import com.lukecourt.scjournal.viewModels.MissionsViewModel
+import com.lukecourt.starjournal.ui.home.HomeScreen
+import com.lukecourt.starjournal.ui.missions.AddMissionScreen
+import com.lukecourt.starjournal.ui.missions.MissionsScreen
+import com.lukecourt.starjournal.ui.settings.SettingsScreen
+import com.lukecourt.starjournal.ui.missions.MissionDetailsScreen
+import com.lukecourt.starjournal.viewModels.MissionsViewModel
 
 @Composable
 fun SCJournalNavHost(

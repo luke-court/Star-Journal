@@ -1,4 +1,4 @@
-package com.lukecourt.scjournal.data
+package com.lukecourt.starjournal.data
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

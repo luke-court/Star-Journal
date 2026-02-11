@@ -1,4 +1,4 @@
-package com.lukecourt.scjournal.ui.theme
+package com.lukecourt.starjournal.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

@@ -1,4 +1,4 @@
-package com.lukecourt.scjournal.ui.home
+package com.lukecourt.starjournal.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,7 +16,6 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.outlined.Send
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,11 +35,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.lukecourt.scjournal.data.MissionStatus
-import com.lukecourt.scjournal.data.getLastEdited
-import com.lukecourt.scjournal.ui.theme.SCJournalComposeTheme
-import com.lukecourt.scjournal.viewModels.MissionsViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.lukecourt.starjournal.data.getLastEdited
+import com.lukecourt.starjournal.ui.theme.SCJournalComposeTheme
+import com.lukecourt.starjournal.viewModels.MissionsViewModel
 
 // Data classes for our dashboard items
 data class SummaryCardData(

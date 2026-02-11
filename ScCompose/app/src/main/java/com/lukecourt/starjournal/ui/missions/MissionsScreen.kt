@@ -1,4 +1,4 @@
-package com.lukecourt.scjournal.ui.missions
+package com.lukecourt.starjournal.ui.missions
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -27,11 +27,11 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.lukecourt.scjournal.AddMission
-import com.lukecourt.scjournal.MissionDetails
-import com.lukecourt.scjournal.data.Mission
-import com.lukecourt.scjournal.ui.theme.SCJournalComposeTheme
-import com.lukecourt.scjournal.viewModels.MissionsViewModel
+import com.lukecourt.starjournal.AddMission
+import com.lukecourt.starjournal.MissionDetails
+import com.lukecourt.starjournal.data.Mission
+import com.lukecourt.starjournal.ui.theme.SCJournalComposeTheme
+import com.lukecourt.starjournal.viewModels.MissionsViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)

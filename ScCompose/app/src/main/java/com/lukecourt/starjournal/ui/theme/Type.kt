@@ -1,4 +1,4 @@
-package com.lukecourt.scjournal.ui.theme
+package com.lukecourt.starjournal.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

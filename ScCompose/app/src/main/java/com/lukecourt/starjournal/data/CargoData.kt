@@ -1,4 +1,4 @@
-package com.lukecourt.scjournal.data
+package com.lukecourt.starjournal.data
 
 data class CargoData(
     val cargoName: String,

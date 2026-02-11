@@ -1,4 +1,4 @@
-package com.lukecourt.scjournal.ui.missions
+package com.lukecourt.starjournal.ui.missions
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -37,20 +36,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.forEach
-import androidx.core.graphics.values
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.lukecourt.scjournal.data.Mission
-import com.lukecourt.scjournal.data.GetDataJSON
-import com.lukecourt.scjournal.data.MissionStatus
-import com.lukecourt.scjournal.ui.CargoItemDisplay
-import com.lukecourt.scjournal.ui.theme.SCJournalComposeTheme
-import com.lukecourt.scjournal.viewModels.MissionsViewModel
+import com.lukecourt.starjournal.data.Mission
+import com.lukecourt.starjournal.data.GetDataJSON
+import com.lukecourt.starjournal.data.MissionStatus
+import com.lukecourt.starjournal.ui.CargoItemDisplay
+import com.lukecourt.starjournal.ui.theme.SCJournalComposeTheme
+import com.lukecourt.starjournal.viewModels.MissionsViewModel
 
 
 /**
@@ -61,7 +56,7 @@ import com.lukecourt.scjournal.viewModels.MissionsViewModel
  *
  * @param navController The [NavController] used for navigation, specifically to go back to the previous screen.
  * @param missionIDArg The ID of the mission to display, passed as a navigation argument.
- * @param missionsViewModel The [com.lukecourt.scjournal.viewModels.MissionsViewModel] instance, defaulting to a ViewModel provided by `viewModel()`. This ViewModel is used to fetch the mission details.
+ * @param missionsViewModel The [com.lukecourt.starjournal.viewModels.MissionsViewModel] instance, defaulting to a ViewModel provided by `viewModel()`. This ViewModel is used to fetch the mission details.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,12 +1,12 @@
-package com.lukecourt.scjournal.viewModels
+package com.lukecourt.starjournal.viewModels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.lukecourt.scjournal.data.JsonStorageManagerGson
-import com.lukecourt.scjournal.data.Mission
-import com.lukecourt.scjournal.data.MissionStatus
-import com.lukecourt.scjournal.data.setLastEdited
+import com.lukecourt.starjournal.data.JsonStorageManagerGson
+import com.lukecourt.starjournal.data.Mission
+import com.lukecourt.starjournal.data.MissionStatus
+import com.lukecourt.starjournal.data.setLastEdited
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SC Journal</string>
+    <string name="app_name">Star Journal</string>
     <string name="homeNavText">Home</string>
     <string name="settingsNavText">Settings</string>
     <string name="missionsNavText">Missions</string>
