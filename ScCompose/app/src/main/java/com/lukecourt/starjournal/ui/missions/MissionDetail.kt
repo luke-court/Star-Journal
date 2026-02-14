@@ -1,5 +1,8 @@
 package com.lukecourt.starjournal.ui.missions
 
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -48,6 +53,7 @@ import com.lukecourt.starjournal.ui.theme.SCJournalComposeTheme
 import com.lukecourt.starjournal.viewModels.MissionsViewModel
 
 
+
 /**
  * Composable function that displays the details of a specific mission.
  *
@@ -64,32 +70,7 @@ fun MissionDetailsScreen(navController: NavController, missionIDArg: String, mis
     val missionsState by missionsViewModel.missions.collectAsState()
     val mission = missionsState.find { it.id == missionIDArg } as Mission
     val dataControl = GetDataJSON()
-    // dataControl.getCities()
-//    Scaffold(
-//        topBar = {
-//            TopAppBar(
-//                title = { Text(text = "Details for ${mission.title}") },
-//                colors = TopAppBarDefaults.topAppBarColors(
-//                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-//                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-//                ),
-//                navigationIcon = {
-//                    IconButton(onClick = { navController.popBackStack() }) {
-//                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-//                    }
-//                }
-//            )
-//        },
-//    ) { paddingValues ->
-//            Box (modifier = Modifier.padding(paddingValues)) {
-//                    Row {
-//                        MissionDescription(mission.description.toString())
-//                        Text(text = mission.status.toString())
-//
-//                    }
-//        }
-//
-//    }
+    val offset = remember { mutableStateOf(0f) }
 
     Scaffold (
         topBar = {
@@ -113,7 +94,7 @@ fun MissionDetailsScreen(navController: NavController, missionIDArg: String, mis
                 onStatusChange = { newStatus ->
                     missionsViewModel.updateMissionStatus(currentMission.id, newStatus)
                 },
-                modifier = Modifier.padding(paddingValues)
+                modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState())
             )
         } ?: run {
             // Show a loading indicator or an error message if the mission is null
@@ -127,12 +108,14 @@ fun MissionDetailsScreen(navController: NavController, missionIDArg: String, mis
 
 }
 
+
 @Composable
 fun MissionDetailsContent(
     mission: Mission,
     onStatusChange: (MissionStatus) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val offset = remember { mutableStateOf(0f) }
     Column(
         modifier = modifier
             .fillMaxSize()

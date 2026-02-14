@@ -15,8 +15,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.BottomAppBar
@@ -78,7 +80,14 @@ fun AddMissionScreen(
     var missionName by remember { mutableStateOf("") }
     var missionDescription by remember { mutableStateOf("") }
     var missionReward by remember { mutableStateOf("") }
-    var cargoItems = remember { mutableStateOf(listOf<CargoItem>()) }
+    val cargoItems = remember { mutableStateOf(listOf<CargoItem>()) }
+    val offset = remember { mutableStateOf(0f) }
+
+    // Validation
+    val isNameValid = missionName.isNotBlank()
+    val isRewardValid = missionReward.isNotBlank() && missionReward.isDigitsOnly()
+    val isCargoValid = selectedMissionType != MissionType.CARGO_MISSION || cargoItems.value.isNotEmpty()
+    val canSubmit = isNameValid && isRewardValid && isCargoValid
 
     Scaffold (
         topBar = {
@@ -95,6 +104,7 @@ fun AddMissionScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
+                enabled = canSubmit,
                 onClick = {
                             missionSubmit(
                                 selectedMissionType,
@@ -115,26 +125,33 @@ fun AddMissionScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
 
                 OutlinedTextField(
                     value = missionName,
                     onValueChange = { missionName = it },
-                    label = { Text("Mission Name") }
+                    label = { Text("Mission Name") },
+                    isError = !isNameValid && missionName.isNotEmpty(),
+                    modifier = Modifier.fillMaxWidth()
                 )
                 OutlinedTextField(
                     value = missionDescription,
                     onValueChange = { missionDescription = it },
-                    label = { Text("Mission Description") }
+                    label = { Text("Mission Description") },
+                    modifier = Modifier.fillMaxWidth()
                 )
                 OutlinedTextField(
                     value = missionReward,
                     onValueChange = { if (missionRewardVerify(it)) missionReward = it },
                     label = { Text("Mission Reward") },
+                    isError = !isRewardValid && missionReward.isNotEmpty(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = Modifier.fillMaxWidth()
                 )
                 Box (modifier = Modifier
-                    .padding(0.dp, 16.dp, 32.dp, 0.dp)
+                    .padding(0.dp, 8.dp, 0.dp, 0.dp)
                     .border(BorderStroke(1.dp, Color.Gray))
                     .fillMaxWidth()) {
                     Row(
@@ -172,6 +189,14 @@ fun AddMissionScreen(
 
                 if (selectedMissionType == MissionType.CARGO_MISSION) {
                     CargoMissionDetails(cargoItemsList = cargoItems)
+                    if (cargoItems.value.isEmpty()) {
+                        Text(
+                            text = "Add at least one cargo item",
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.labelSmall,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
                 }
             }
     }
@@ -183,13 +208,14 @@ fun missionRewardVerify(input: String): Boolean {
 
 fun missionSubmit(selectedMissionType: MissionType, missionName: String, missionDescription: String, missionReward: String, missionsViewModel: MissionsViewModel, navController: NavController,
                   cargoItems: List<CargoItem> = listOf()) {
+    val rewardValue = missionReward.toIntOrNull() ?: 0
     if (selectedMissionType == MissionType.MISSION) {
         missionsViewModel.createMission(Mission(
             id = (missionsViewModel.missions.value.size + 1).toString(),
             title = missionName,
             description = missionDescription,
             status = MissionStatus.PENDING,
-            reward = missionReward.toInt()
+            reward = rewardValue
         ))
         navController.navigate(Missions.route)
     }
@@ -199,7 +225,7 @@ fun missionSubmit(selectedMissionType: MissionType, missionName: String, mission
             title = missionName,
             description = missionDescription,
             status = MissionStatus.PENDING,
-            reward = missionReward.toInt(),
+            reward = rewardValue,
         )
         newMission.cargoMission = CargoMission(
             cargoList = cargoItems
@@ -220,8 +246,11 @@ fun CargoMissionDetails(cargoItemsList: MutableState<List<CargoItem>> ){
     val openDialog = remember { mutableStateOf(false) }
 
     Column(modifier = Modifier) {
-        Text("Cargo Mission Details")
-        Button({ openDialog.value = true }) {
+        Text("Cargo Mission Details", style = MaterialTheme.typography.titleMedium)
+        Button(
+            onClick = { openDialog.value = true },
+            modifier = Modifier.padding(vertical = 8.dp)
+        ) {
             Text("New Cargo Item")
         }
 
@@ -229,7 +258,6 @@ fun CargoMissionDetails(cargoItemsList: MutableState<List<CargoItem>> ){
 
         when {
             !openDialog.value -> {
-                println(cargoItemsList.value.toString())
                 cargoItemsList.value.forEach {
                     CargoItemDisplay(it)
                 }
@@ -259,31 +287,34 @@ fun CargoMissionDetails(cargoItemsList: MutableState<List<CargoItem>> ){
         var expandedDestination by remember { mutableStateOf(false) }
         var cargoAmount by remember { mutableStateOf("") }
 
+        // Cargo validation
+        val isCargoTypeValid = selectedCargoType != "Cargo Type"
+        val isOriginValid = cargoOrigin != "Cargo Collection Location"
+        val isDestinationValid = cargoDestination != "Cargo Delivery Location"
+        val isAmountValid = cargoAmount.isNotBlank() && cargoAmount.isDigitsOnly() && (cargoAmount.toIntOrNull() ?: 0) > 0
+        val isConfirmEnabled = isCargoTypeValid && isOriginValid && isDestinationValid && isAmountValid
+
         Dialog(
             onDismissRequest = { onDismissRequest() },
         ) {
             Card (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(400.dp, 460.dp)
-                    .scrollable(
-                        orientation = Orientation.Vertical,
-                        state = rememberScrollableState { delta -> offset.value += delta; delta }
-                    )
-                    .padding(16.dp),
+                    .heightIn(min = 400.dp, max = 500.dp),
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Column (
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp)
-                        .align(Alignment.CenterHorizontally),
-                    verticalArrangement = Arrangement.Center,
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Text("Add Cargo Item", style = MaterialTheme.typography.titleLarge)
+
                     Box (modifier = Modifier
-                        .padding(0.dp, 16.dp, 32.dp, 0.dp)
-                        .border(BorderStroke(1.dp, Color.Gray))
+                        .border(BorderStroke(1.dp, if (isCargoTypeValid) Color.Gray else MaterialTheme.colorScheme.error))
                         .fillMaxWidth()) {
                         Row(
                             horizontalArrangement = Arrangement.Center,
@@ -293,21 +324,16 @@ fun CargoMissionDetails(cargoItemsList: MutableState<List<CargoItem>> ){
                                     expandedType = true
                                 }
                                 .padding(8.dp)
+                                .fillMaxWidth()
                         ) {
-                            Text(selectedCargoType)
+                            Text(selectedCargoType, color = if (isCargoTypeValid) Color.Unspecified else MaterialTheme.colorScheme.error)
                             Icon(Icons.Default.ArrowDropDown, contentDescription = "Drop-down Icon")
                         }
 
                         DropdownMenu(
                             expanded = expandedType,
                             onDismissRequest = { expandedType = false },
-                            Modifier
-                                .fillMaxWidth()
-                                .height(600.dp)
-                                .scrollable(
-                                    orientation = Orientation.Vertical,
-                                    state = rememberScrollableState { delta -> offset.value += delta; delta }
-                                )
+                            Modifier.fillMaxWidth(0.8f).heightIn(max = 400.dp)
                         ) {
                             commoditiesList.value.forEach {
                                 DropdownMenuItem(
@@ -321,18 +347,17 @@ fun CargoMissionDetails(cargoItemsList: MutableState<List<CargoItem>> ){
                         }
                     }
 
-                    Box (modifier = Modifier.padding(0.dp, 16.dp, 32.dp, 0.dp)) {
-                        OutlinedTextField(
-                            value = cargoAmount,
-                            onValueChange = { if (verifyInt(it)) cargoAmount = it else cargoAmount = 0.toString() },
-                            label = { Text("Cargo Quantity (SCU)") },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        )
-                    }
+                    OutlinedTextField(
+                        value = cargoAmount,
+                        onValueChange = { if (it.isEmpty() || it.isDigitsOnly()) cargoAmount = it },
+                        label = { Text("Cargo Quantity (SCU)") },
+                        isError = !isAmountValid && cargoAmount.isNotEmpty(),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
                     Box (modifier = Modifier
-                        .padding(0.dp, 16.dp, 32.dp, 0.dp)
-                        .border(BorderStroke(1.dp, Color.Gray))
+                        .border(BorderStroke(1.dp, if (isOriginValid) Color.Gray else MaterialTheme.colorScheme.error))
                         .fillMaxWidth()) {
                         Row(
                             horizontalArrangement = Arrangement.Center,
@@ -342,21 +367,16 @@ fun CargoMissionDetails(cargoItemsList: MutableState<List<CargoItem>> ){
                                     expandedOrigin = true
                                 }
                                 .padding(8.dp)
+                                .fillMaxWidth()
                         ) {
-                            Text(cargoOrigin)
+                            Text(cargoOrigin, color = if (isOriginValid) Color.Unspecified else MaterialTheme.colorScheme.error)
                             Icon(Icons.Default.ArrowDropDown, contentDescription = "Drop-down Icon")
                         }
 
                         DropdownMenu(
                             expanded = expandedOrigin,
                             onDismissRequest = { expandedOrigin = false },
-                            Modifier
-                                .fillMaxWidth()
-                                .height(600.dp)
-                                .scrollable(
-                                    orientation = Orientation.Vertical,
-                                    state = rememberScrollableState { delta -> offset.value += delta; delta }
-                                )
+                            Modifier.fillMaxWidth(0.8f).heightIn(max = 400.dp)
                         ) {
                             cargoLocations.forEach {
                                 DropdownMenuItem(
@@ -371,8 +391,7 @@ fun CargoMissionDetails(cargoItemsList: MutableState<List<CargoItem>> ){
                     }
 
                     Box (modifier = Modifier
-                        .padding(0.dp, 16.dp, 32.dp, 0.dp)
-                        .border(BorderStroke(1.dp, Color.Gray))
+                        .border(BorderStroke(1.dp, if (isDestinationValid) Color.Gray else MaterialTheme.colorScheme.error))
                         .fillMaxWidth()) {
                         Row(
                             horizontalArrangement = Arrangement.Center,
@@ -382,21 +401,16 @@ fun CargoMissionDetails(cargoItemsList: MutableState<List<CargoItem>> ){
                                     expandedDestination = true
                                 }
                                 .padding(8.dp)
+                                .fillMaxWidth()
                         ) {
-                            Text(cargoDestination)
+                            Text(cargoDestination, color = if (isDestinationValid) Color.Unspecified else MaterialTheme.colorScheme.error)
                             Icon(Icons.Default.ArrowDropDown, contentDescription = "Drop-down Icon")
                         }
 
                         DropdownMenu(
                             expanded = expandedDestination,
                             onDismissRequest = { expandedDestination = false },
-                            Modifier
-                                .fillMaxWidth()
-                                .height(600.dp)
-                                .scrollable(
-                                    orientation = Orientation.Vertical,
-                                    state = rememberScrollableState { delta -> offset.value += delta; delta }
-                                )
+                            Modifier.fillMaxWidth(0.8f).heightIn(max = 400.dp)
                         ) {
                             cargoLocations.forEach {
                                 DropdownMenuItem(
@@ -410,7 +424,10 @@ fun CargoMissionDetails(cargoItemsList: MutableState<List<CargoItem>> ){
                         }
                     }
 
-                    Row {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
                         TextButton(
                             onClick = { onDismissRequest() },
                             modifier = Modifier.padding(8.dp),
@@ -423,20 +440,14 @@ fun CargoMissionDetails(cargoItemsList: MutableState<List<CargoItem>> ){
                                     CargoItem(
                                         id = cargoItemsList.value.size + 1,
                                         type = selectedCargoType,
-                                        quantity = if (cargoAmount == "") {
-                                            0
-                                        } else if (verifyInt(cargoAmount)) {
-                                            cargoAmount.toInt()
-                                        } else {
-                                            0
-                                        },
+                                        quantity = cargoAmount.toIntOrNull() ?: 0,
                                         origin = cargoOrigin,
                                         destination = cargoDestination
                                     )
                                 )
-                                println(cargoItemsList.value.toString())
                                 closeDialog()
                             },
+                            enabled = isConfirmEnabled,
                             modifier = Modifier.padding(8.dp),
                         ) {
                             Text("Confirm")
@@ -459,57 +470,6 @@ fun CargoMissionDetails(cargoItemsList: MutableState<List<CargoItem>> ){
         }
     }
 }
-
-//@Composable
-//fun CargoItemDisplay(cargoItem: CargoItem) {
-//    Card (
-//        modifier = Modifier
-//            .padding(16.dp)
-//            .fillMaxWidth(),
-//    ) {
-//        Row (
-//            modifier = Modifier.padding(16.dp),
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//            Column (
-//                modifier = Modifier.weight(1f)
-//            ) {
-//                Text(cargoItem.type)
-//            }
-//            Column {
-//                Text("Quantity: " + cargoItem.quantity.toString() + " SCU")
-//            }
-//
-//        }
-//        Row (
-//            modifier = Modifier.padding(16.dp),
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//            Column (
-//                modifier = Modifier.weight(1f)
-//            ) {
-//                Text(cargoItem.origin)
-//            }
-//            Column (
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//                modifier = Modifier.weight(1f)
-//            ) {
-//                Icon(
-//                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-//                    contentDescription = "Arrow Forward"
-//                )
-//
-//            }
-//            Column (
-//                modifier = Modifier.weight(1f)
-//            ) {
-//                Text(cargoItem.destination)
-//            }
-//
-//        }
-//    }
-//}
-
 
 @PreviewLightDark()
 @Composable
